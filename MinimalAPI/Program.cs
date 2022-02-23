@@ -121,6 +121,15 @@ Product MostBottles(List<Product> listings)
     return listings.Single(listing => listing.Id == highestId);
 }
 
+#if MEASURE
+void StopMeasurement(Stopwatch sw)
+{
+    sw.Stop();
+    Console.WriteLine("Eplased Ticks for Call: " + sw.ElapsedTicks);
+    sw.Reset();
+}
+#endif
+
 app.MapGet("/api/extremeItems", async (string url) =>
 {
 #if MEASURE
@@ -137,9 +146,7 @@ app.MapGet("/api/extremeItems", async (string url) =>
     var result = ExtremeItems(listings);
 
 #if MEASURE
-    stopwatch.Stop();
-    Console.WriteLine("Eplased Ticks for Call: " + stopwatch.ElapsedTicks);
-    stopwatch.Reset();
+    StopMeasurement(stopwatch);
 #endif
 
     return Results.Ok(result);
@@ -161,9 +168,7 @@ app.MapGet("/api/exactPrice", async (string url, double price) =>
     var result = ExactPrice(listings, price);
 
 #if MEASURE
-    stopwatch.Stop();
-    Console.WriteLine("Eplased Ticks for Call: " + stopwatch.ElapsedTicks);
-    stopwatch.Reset();
+    StopMeasurement(stopwatch);
 #endif
 
     return Results.Ok(result);
@@ -185,9 +190,7 @@ app.MapGet("/api/mostBottles", async (string url) =>
     var result = MostBottles(listings);
 
 #if MEASURE
-    stopwatch.Stop();
-    Console.WriteLine("Eplased Ticks for Call: " + stopwatch.ElapsedTicks);
-    stopwatch.Reset();
+    StopMeasurement(stopwatch);
 #endif
 
     return Results.Ok(result);
@@ -214,9 +217,7 @@ app.MapGet("/api/all", async (string url, double price) =>
     };
 
 #if MEASURE
-    stopwatch.Stop();
-    Console.WriteLine("Eplased Ticks for Call: " + stopwatch.ElapsedTicks);
-    stopwatch.Reset();
+    StopMeasurement(stopwatch);
 #endif
 
     return Results.Ok(result);

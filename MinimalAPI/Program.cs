@@ -125,7 +125,7 @@ Product MostBottles(List<Product> listings)
 void StopMeasurement(Stopwatch sw)
 {
     sw.Stop();
-    Console.WriteLine("Eplased Ticks for Call: " + sw.ElapsedTicks);
+    Console.WriteLine("Elapsed Ticks for Call: " + sw.ElapsedTicks);
     sw.Reset();
 }
 #endif

@@ -30,6 +30,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+var utility = new Utility();
+
 List<Listing> ExtremeItems(List<Listing> listings)
 {
     List<PricePerUnit> pricePerUnits = new();
@@ -38,7 +40,7 @@ List<Listing> ExtremeItems(List<Listing> listings)
     {
         foreach (var article in listing.Articles)
         {
-            var pricePerUnit = Utility.GetPricePerUnitFromText(listing.Id, article.Id, article.PricePerUnitText);
+            var pricePerUnit = utility.GetPricePerUnitFromText(listing.Id, article.Id, article.PricePerUnitText);
 
             if (pricePerUnit == null)
             {
@@ -72,7 +74,7 @@ List<Listing> ExactPrice(List<Listing> listings, double price)
                 matches.Add(listing);
             }
 
-            var pricePerUnit = Utility.GetPricePerUnitFromText(listing.Id, article.Id, article.PricePerUnitText);
+            var pricePerUnit = utility.GetPricePerUnitFromText(listing.Id, article.Id, article.PricePerUnitText);
 
             if (pricePerUnit == null)
             {
@@ -96,7 +98,7 @@ Listing MostBottles(List<Listing> listings)
     {
         foreach (var article in listing.Articles)
         {
-            var quantity = Utility.GetQuantityFromShortDesc(listing.Id, article.Id, article.ShortDescription);
+            var quantity = utility.GetQuantityFromShortDesc(listing.Id, article.Id, article.ShortDescription);
 
             if (quantity == null || quantity.Count <= count)
             {

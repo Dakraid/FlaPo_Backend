@@ -16,19 +16,20 @@ using Model;
 using Newtonsoft.Json;
 
 using System.Text.RegularExpressions;
-using System.Web;
 
-public static class Utility
+public class Utility
 {
-    private const string QuantityPattern = @"(\d*)\s*x\s*(\d*,\d*)(\w*)\s\((\w*)\)";
-    private const string PricePerUnitPattern = @"\((\d*,\d*)\s*(€)\/(\w*)\)";
+    private readonly Regex _quantityRegex;
+    private readonly Regex _pricePerUnitRegex;
 
-    /// <summary>
-    ///     Converts an encoded URL string to an Uri object
-    /// </summary>
-    /// <param name="url">Encoded URL string</param>
-    /// <returns>Input string as Uri</returns>
-    public static Uri ToUri(this string url) => new(HttpUtility.UrlDecode(url));
+    public Utility()
+    {
+        _quantityRegex = new Regex(@"(\d*)\s*x\s*(\d*,\d*)(\w*)\s\((\w*)\)",
+          RegexOptions.Compiled | RegexOptions.IgnoreCase, TimeSpan.FromSeconds(60));
+
+        _pricePerUnitRegex = new Regex(@"\((\d*,\d*)\s*(€)\/(\w*)\)",
+            RegexOptions.Compiled | RegexOptions.IgnoreCase, TimeSpan.FromSeconds(60));
+    }
 
     /// <summary>
     ///     Downloads and parses an incoming JSON from an URL into a List of Listings
@@ -38,7 +39,7 @@ public static class Utility
     public static async Task<List<Listing>?> GetListingsFromUrl(Uri uri)
     {
         using var httpClient = new HttpClient();
-        var       jsonString = await httpClient.GetStringAsync(uri);
+        var jsonString = await httpClient.GetStringAsync(uri);
 
         return JsonConvert.DeserializeObject<List<Listing>>(jsonString);
     }
@@ -51,9 +52,9 @@ public static class Utility
     /// <param name="shortDescription">The ShortDescription</param>
     /// <returns>On Success: A new filled Quantity object</returns>
     /// <remarks>Note: Returns null on failure</remarks>
-    public static Quantity? GetQuantityFromShortDesc(long listingId, long articleId, string shortDescription)
+    public Quantity? GetQuantityFromShortDesc(long listingId, long articleId, string shortDescription)
     {
-        var match = Regex.Match(shortDescription, QuantityPattern, RegexOptions.IgnoreCase);
+        var match = _quantityRegex.Match(shortDescription);
 
         if (match.Success)
         {
@@ -61,10 +62,10 @@ public static class Utility
             {
                 ListingId = listingId,
                 ArticleId = articleId,
-                Count     = int.Parse(match.Groups[1].Value),
-                Volume    = float.Parse(match.Groups[2].Value),
-                Unit      = match.Groups[3].Value,
-                Type      = match.Groups[4].Value
+                Count = int.Parse(match.Groups[1].Value),
+                Volume = float.Parse(match.Groups[2].Value),
+                Unit = match.Groups[3].Value,
+                Type = match.Groups[4].Value
             };
         }
 
@@ -79,9 +80,9 @@ public static class Utility
     /// <param name="pricePerUnitText">The PricePerUnitText</param>
     /// <returns>A new filled PricePerUnit object</returns>
     /// <remarks>Note: Returns null on failure</remarks>
-    public static PricePerUnit? GetPricePerUnitFromText(long listingId, long articleId, string pricePerUnitText)
+    public PricePerUnit? GetPricePerUnitFromText(long listingId, long articleId, string pricePerUnitText)
     {
-        var match = Regex.Match(pricePerUnitText, PricePerUnitPattern, RegexOptions.IgnoreCase);
+        var match = _pricePerUnitRegex.Match(pricePerUnitText);
 
         if (match.Success)
         {
@@ -89,9 +90,9 @@ public static class Utility
             {
                 ListingId = listingId,
                 ArticleId = articleId,
-                Price     = float.Parse(match.Groups[1].Value),
-                Currency  = match.Groups[2].Value,
-                Unit      = match.Groups[3].Value
+                Price = float.Parse(match.Groups[1].Value),
+                Currency = match.Groups[2].Value,
+                Unit = match.Groups[3].Value
             };
         }
 

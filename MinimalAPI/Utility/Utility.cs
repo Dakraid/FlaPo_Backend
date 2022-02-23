@@ -1,9 +1,9 @@
 // --------------------------------------------------------------------------------------------------------------------
 // Filename : Utility.cs
-// Project: FlaPo_Backend_Minimal / FlaPo_Backend_Minimal
+// Project: FlaPo_Backend_Minimal / FlaPo_Backend
 // Author : Kristian Schlikow (kristian@schlikow.de)
 // Created On : 22.02.2022 19:47
-// Last Modified On : 23.02.2022 14:23
+// Last Modified On : 23.02.2022 14:35
 // Copyrights : Copyright (c) Kristian Schlikow 2022-2022, All Rights Reserved
 // License: License is provided as described within the LICENSE file shipped with the project
 // If present, the license takes precedence over the individual notice within this file
@@ -38,7 +38,7 @@ public static class Utility
     public static async Task<List<Listing>?> GetListingsFromUrl(Uri uri)
     {
         using var httpClient = new HttpClient();
-        var jsonString = await httpClient.GetStringAsync(uri);
+        var       jsonString = await httpClient.GetStringAsync(uri);
 
         return JsonConvert.DeserializeObject<List<Listing>>(jsonString);
     }
@@ -61,10 +61,10 @@ public static class Utility
             {
                 ListingId = listingId,
                 ArticleId = articleId,
-                Count = int.Parse(match.Groups[1].Value),
-                Volume = float.Parse(match.Groups[2].Value),
-                Unit = match.Groups[3].Value,
-                Type = match.Groups[4].Value
+                Count     = int.Parse(match.Groups[1].Value),
+                Volume    = float.Parse(match.Groups[2].Value),
+                Unit      = match.Groups[3].Value,
+                Type      = match.Groups[4].Value
             };
         }
 
@@ -89,9 +89,9 @@ public static class Utility
             {
                 ListingId = listingId,
                 ArticleId = articleId,
-                Price = float.Parse(match.Groups[1].Value),
-                Currency = match.Groups[2].Value,
-                Unit = match.Groups[3].Value
+                Price     = float.Parse(match.Groups[1].Value),
+                Currency  = match.Groups[2].Value,
+                Unit      = match.Groups[3].Value
             };
         }
 

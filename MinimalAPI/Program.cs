@@ -93,9 +93,9 @@ List<Product> ExactPrice(List<Product> listings, double price)
         }
     }
 
-    // TODO: Order by PPU
+    var order = pricePerUnits.OrderBy(ppu => ppu.Price).Select(ppu => ppu.ListingId).ToList();
 
-    return matches;
+    return matches.OrderBy(product => order.IndexOf(product.Id)).ToList();
 }
 
 Product MostBottles(List<Product> listings)

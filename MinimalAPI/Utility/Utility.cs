@@ -25,7 +25,7 @@ public class Utility
     public Utility()
     {
         _quantityRegex = new Regex(@"(\d*)\s*x\s*(\d*,\d*)(\w*)\s\((\w*)\)",
-          RegexOptions.Compiled | RegexOptions.IgnoreCase, TimeSpan.FromSeconds(60));
+            RegexOptions.Compiled | RegexOptions.IgnoreCase, TimeSpan.FromSeconds(60));
 
         _pricePerUnitRegex = new Regex(@"\((\d*,\d*)\s*(€)\/(\w*)\)",
             RegexOptions.Compiled | RegexOptions.IgnoreCase, TimeSpan.FromSeconds(60));
@@ -35,19 +35,19 @@ public class Utility
     ///     Downloads and parses an incoming JSON from an URL into a List of Listings
     /// </summary>
     /// <param name="uri">The JSON Uri</param>
-    /// <returns>Collection of Listing objects</returns>
-    public static async Task<List<Listing>?> GetListingsFromUrl(Uri uri)
+    /// <returns>Collection of Product objects</returns>
+    public static async Task<List<Product>?> GetListingsFromUrl(Uri uri)
     {
         using var httpClient = new HttpClient();
         var jsonString = await httpClient.GetStringAsync(uri);
 
-        return JsonConvert.DeserializeObject<List<Listing>>(jsonString);
+        return JsonConvert.DeserializeObject<List<Product>>(jsonString);
     }
 
     /// <summary>
     ///     Takes in the ShortDescription and converts it into a Quantity object with fields
     /// </summary>
-    /// <param name="listingId">The Id of the Listing</param>
+    /// <param name="listingId">The Id of the Product</param>
     /// <param name="articleId">The Id of the Article</param>
     /// <param name="shortDescription">The ShortDescription</param>
     /// <returns>On Success: A new filled Quantity object</returns>
@@ -75,7 +75,7 @@ public class Utility
     /// <summary>
     ///     Takes in the PricePerUnitText and converts it into a Quantity object with fields
     /// </summary>
-    /// <param name="listingId">The Id of the Listing</param>
+    /// <param name="listingId">The Id of the Product</param>
     /// <param name="articleId">The Id of the Article</param>
     /// <param name="pricePerUnitText">The PricePerUnitText</param>
     /// <returns>A new filled PricePerUnit object</returns>

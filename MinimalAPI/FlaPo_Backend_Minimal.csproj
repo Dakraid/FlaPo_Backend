@@ -4,6 +4,11 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Configurations>Debug;Release;Bench</Configurations>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Bench|AnyCPU'">
+    <DefineConstants>$(DefineConstants)TRACE;MEASURE</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>

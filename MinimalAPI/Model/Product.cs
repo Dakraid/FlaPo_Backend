@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// Filename : Listing.cs
+// Filename : Product.cs
 // Project: FlaPo_Backend_Minimal / FlaPo_Backend
 // Author : Kristian Schlikow (kristian@schlikow.de)
 // Created On : 22.02.2022 18:56
@@ -13,7 +13,7 @@ namespace FlaPo_Backend_Minimal.Model;
 
 using Newtonsoft.Json;
 
-public class Listing
+public class Product
 {
     [JsonProperty("id")]
     public long Id { get; set; }

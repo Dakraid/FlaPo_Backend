@@ -1,4 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 // Filename : CombinedResponse.cs
 // Project: FlaPo_Backend_Minimal / FlaPo_Backend
 // Author : Kristian Schlikow (kristian@schlikow.de)
@@ -16,11 +16,11 @@ using Newtonsoft.Json;
 public class CombinedResponse
 {
     [JsonProperty("extremeItems")]
-    public List<Listing> ExtremeItems { get; set; }
+    public List<Product>? ExtremeItems { get; set; }
 
     [JsonProperty("exactPrice")]
-    public List<Listing> ExactPrice { get; set; }
+    public List<Product>? ExactPrice { get; set; }
 
     [JsonProperty("mostBottles")]
-    public Listing MostBottles { get; set; }
+    public Product? MostBottles { get; set; }
 }

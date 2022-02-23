@@ -12,6 +12,10 @@
 using FlaPo_Backend_Minimal.Model;
 using FlaPo_Backend_Minimal.Utility;
 
+#if MEASURE
+using System.Diagnostics;
+#endif
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -32,7 +36,11 @@ app.UseHttpsRedirection();
 
 var utility = new Utility();
 
-List<Listing> ExtremeItems(List<Listing> listings)
+#if MEASURE
+var stopwatch = new Stopwatch();
+#endif
+
+List<Product> ExtremeItems(List<Product> listings)
 {
     List<PricePerUnit> pricePerUnits = new();
 
@@ -54,15 +62,15 @@ List<Listing> ExtremeItems(List<Listing> listings)
     var highestItemId = pricePerUnits.MaxBy(ppu => ppu.Price)?.ListingId;
     var lowestItemId = pricePerUnits.MinBy(ppu => ppu.Price)?.ListingId;
 
-    return new List<Listing>
+    return new List<Product>
     {
         listings.Single(listing => listing.Id == highestItemId), listings.Single(listing => listing.Id == lowestItemId)
     };
 }
 
-List<Listing> ExactPrice(List<Listing> listings, double price)
+List<Product> ExactPrice(List<Product> listings, double price)
 {
-    List<Listing> matches = new();
+    List<Product> matches = new();
     List<PricePerUnit> pricePerUnits = new();
 
     foreach (var listing in listings)
@@ -90,7 +98,7 @@ List<Listing> ExactPrice(List<Listing> listings, double price)
     return matches;
 }
 
-Listing MostBottles(List<Listing> listings)
+Product MostBottles(List<Product> listings)
 {
     long highestId = 0, count = 0;
 
@@ -113,10 +121,12 @@ Listing MostBottles(List<Listing> listings)
     return listings.Single(listing => listing.Id == highestId);
 }
 
-;
-
 app.MapGet("/api/extremeItems", async (string url) =>
 {
+#if MEASURE
+    stopwatch.Start();
+#endif
+
     var listings = await Utility.GetListingsFromUrl(url.ToUri());
 
     if (listings == null || listings.Count == 0)
@@ -124,11 +134,23 @@ app.MapGet("/api/extremeItems", async (string url) =>
         return Results.UnprocessableEntity("JSON could not be parsed or returned an empty collection.");
     }
 
-    return Results.Ok(ExtremeItems(listings));
+    var result = ExtremeItems(listings);
+
+#if MEASURE
+    stopwatch.Stop();
+    Console.WriteLine("Eplased Ticks for Call: " + stopwatch.ElapsedTicks);
+    stopwatch.Reset();
+#endif
+
+    return Results.Ok(result);
 });
 
 app.MapGet("/api/exactPrice", async (string url, double price) =>
 {
+#if MEASURE
+    stopwatch.Start();
+#endif
+
     var listings = await Utility.GetListingsFromUrl(url.ToUri());
 
     if (listings == null || listings.Count == 0)
@@ -136,11 +158,23 @@ app.MapGet("/api/exactPrice", async (string url, double price) =>
         return Results.UnprocessableEntity("JSON could not be parsed or returned an empty collection.");
     }
 
-    return Results.Ok(ExactPrice(listings, price));
+    var result = ExactPrice(listings, price);
+
+#if MEASURE
+    stopwatch.Stop();
+    Console.WriteLine("Eplased Ticks for Call: " + stopwatch.ElapsedTicks);
+    stopwatch.Reset();
+#endif
+
+    return Results.Ok(result);
 });
 
 app.MapGet("/api/mostBottles", async (string url) =>
 {
+#if MEASURE
+    stopwatch.Start();
+#endif
+
     var listings = await Utility.GetListingsFromUrl(url.ToUri());
 
     if (listings == null || listings.Count == 0)
@@ -148,11 +182,23 @@ app.MapGet("/api/mostBottles", async (string url) =>
         return Results.UnprocessableEntity("JSON could not be parsed or returned an empty collection.");
     }
 
-    return Results.Ok(MostBottles(listings));
+    var result = MostBottles(listings);
+
+#if MEASURE
+    stopwatch.Stop();
+    Console.WriteLine("Eplased Ticks for Call: " + stopwatch.ElapsedTicks);
+    stopwatch.Reset();
+#endif
+
+    return Results.Ok(result);
 });
 
 app.MapGet("/api/all", async (string url, double price) =>
 {
+#if MEASURE
+    stopwatch.Start();
+#endif
+
     var listings = await Utility.GetListingsFromUrl(url.ToUri());
 
     if (listings == null || listings.Count == 0)
@@ -166,6 +212,12 @@ app.MapGet("/api/all", async (string url, double price) =>
         ExtremeItems = ExtremeItems(listings),
         MostBottles = MostBottles(listings)
     };
+
+#if MEASURE
+    stopwatch.Stop();
+    Console.WriteLine("Eplased Ticks for Call: " + stopwatch.ElapsedTicks);
+    stopwatch.Reset();
+#endif
 
     return Results.Ok(result);
 });

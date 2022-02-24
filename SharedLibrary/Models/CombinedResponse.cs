@@ -1,15 +1,15 @@
 // --------------------------------------------------------------------------------------------------------------------
 // Filename : CombinedResponse.cs
-// Project: FlaPo_Backend_Minimal / FlaPo_Backend
+// Project: SharedLibrary / FlaPo_Backend
 // Author : Kristian Schlikow (kristian@schlikow.de)
-// Created On : 23.02.2022 14:09
-// Last Modified On : 23.02.2022 14:35
+// Created On : 24.02.2022 00:29
+// Last Modified On : 24.02.2022 00:31
 // Copyrights : Copyright (c) Kristian Schlikow 2022-2022, All Rights Reserved
 // License: License is provided as described within the LICENSE file shipped with the project
 // If present, the license takes precedence over the individual notice within this file
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace FlaPo_Backend_Minimal.Model;
+namespace SharedLibrary.Models;
 
 using Newtonsoft.Json;
 

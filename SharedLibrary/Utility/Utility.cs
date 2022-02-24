@@ -1,17 +1,17 @@
 // --------------------------------------------------------------------------------------------------------------------
 // Filename : Utility.cs
-// Project: FlaPo_Backend_Minimal / FlaPo_Backend
+// Project: SharedLibrary / FlaPo_Backend
 // Author : Kristian Schlikow (kristian@schlikow.de)
-// Created On : 22.02.2022 19:47
-// Last Modified On : 23.02.2022 14:35
+// Created On : 24.02.2022 00:29
+// Last Modified On : 24.02.2022 00:31
 // Copyrights : Copyright (c) Kristian Schlikow 2022-2022, All Rights Reserved
 // License: License is provided as described within the LICENSE file shipped with the project
 // If present, the license takes precedence over the individual notice within this file
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace FlaPo_Backend_Minimal.Utility;
+namespace SharedLibrary.Utility;
 
-using Model;
+using Models;
 
 using Newtonsoft.Json;
 
@@ -19,8 +19,8 @@ using System.Text.RegularExpressions;
 
 public class Utility
 {
-    private readonly Regex _quantityRegex;
     private readonly Regex _pricePerUnitRegex;
+    private readonly Regex _quantityRegex;
 
     public Utility()
     {

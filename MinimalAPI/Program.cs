@@ -9,8 +9,8 @@
 // If present, the license takes precedence over the individual notice within this file
 // --------------------------------------------------------------------------------------------------------------------
 
-using FlaPo_Backend_Minimal.Model;
-using FlaPo_Backend_Minimal.Utility;
+using SharedLibrary.Models;
+using SharedLibrary.Utility;
 
 #if MEASURE
 using System.Diagnostics;

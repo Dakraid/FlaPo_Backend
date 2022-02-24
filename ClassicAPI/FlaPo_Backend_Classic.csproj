@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Configurations>Debug;Release;Measure</Configurations>
   </PropertyGroup>
-
+  
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Measure|AnyCPU'">
     <DefineConstants>$(DefineConstants)TRACE;MEASURE</DefineConstants>
   </PropertyGroup>

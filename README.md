@@ -1,6 +1,6 @@
 # FlaPo Backend
 This is the repository for an interview assigned coding task.
-At the end you will find two folders within this repository: 
+You will find following projects within this repository: 
 - MinimalAPI
 	- The MinimalAPI is an implementation based on the .NET 6 Minimal API approach. Very compact and dense without separate controller classes. For more information visit the following links:
 	https://docs.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-6.0
@@ -9,13 +9,17 @@ At the end you will find two folders within this repository:
 	- This ClassicAPI is a more traditional approach using separate controller classes as one would expect usually. For more information visit the following links:
 	https://docs.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-6.0
 	https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-6.0&tabs=visual-studio
+- SharedLibrary
+    - This project contains shared model definitions and utility functions used across both implementations.
 
 ## Building
 To build follow these steps: 
 - Open up the FlaPo_Backend.sln solution file
 - Restore the nuget packages
-- Select the project you want to run (FlaPo_Backend_Minimal or FlaPo_Backend_Classic)
+- Select the project you want to run (FlaPo_Backend_Minimal or FlaPo_Backend_Classic) and the configuration (Release, Debug, or Measure)
 - A new Browser window should open, directing you to Swagger
+
+Note: The Measure configuration outputs StopWatch timings into the console.
 
 ## Observations about the Regex
 With Commit [2c9fa29](https://github.com/Dakraid/FlaPo_Backend/commit/2c9fa29694e4d200d36b2e3d7f5fe898a640fdae) I implemented a few optimization oriented changes.

@@ -25,6 +25,11 @@ public class ProductService : IProductService
         _utility = new Utility();
     }
 
+    /// <summary>
+    /// Extracts the Products with the highest and lowest price point per unit
+    /// </summary>
+    /// <param name="listings">A list of Products</param>
+    /// <returns>List of Products with the highest and lowest price</returns>
     public List<Product> ExtremeItems(List<Product> listings)
     {
         List<PricePerUnit> pricePerUnits = new();
@@ -53,6 +58,12 @@ public class ProductService : IProductService
         };
     }
 
+    /// <summary>
+    /// Returns all products matching the exact price given
+    /// </summary>
+    /// <param name="listings">A list of Products</param>
+    /// <param name="price">The price to be checked against</param>
+    /// <returns>List of Products matching the asked price</returns>
     public List<Product> ExactPrice(List<Product> listings, double price)
     {
         List<Product> matches = new();
@@ -62,6 +73,9 @@ public class ProductService : IProductService
         {
             foreach (var article in listing.Articles)
             {
+                // Instead of using == to check for equality, we subtract each other and check against a threshold
+                // This avoids failed checks due to floating point inaccuracy
+                // See https://www.jetbrains.com/help/resharper/CompareOfFloatsByEqualityOperator.html for more information
                 if (Math.Abs(article.Price - price) < 0.01 && !matches.Contains(listing))
                 {
                     matches.Add(listing);
@@ -83,6 +97,11 @@ public class ProductService : IProductService
         return matches.OrderBy(product => order.IndexOf(product.Id)).ToList();
     }
 
+    /// <summary>
+    /// Gives a single product with the most bottles offered
+    /// </summary>
+    /// <param name="listings">A list of Products</param>
+    /// <returns>Single Product with the most bottles</returns>
     public Product MostBottles(List<Product> listings)
     {
         long highestId = 0, count = 0;
@@ -107,6 +126,10 @@ public class ProductService : IProductService
     }
 
 #if MEASURE
+/// <summary>
+/// Stops the passed in Stopwatch, prints out the elapsed ticks, and resets the Stopwatch
+/// </summary>
+/// <param name="sw">The Stopwatch</param>
 public void StopMeasurement(Stopwatch sw)
 {
     sw.Stop();
